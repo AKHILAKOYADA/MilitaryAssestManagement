@@ -12,6 +12,11 @@ const SECRET_KEY = "military_super_secret_key";
 app.use(cors());
 app.use(bodyParser.json());
 
+// Root route for deployment verification
+app.get('/', (req, res) => {
+    res.send('Military Asset Management API is running. Access endpoints at /api/...');
+});
+
 // Middleware for authentication
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers.authorization;
