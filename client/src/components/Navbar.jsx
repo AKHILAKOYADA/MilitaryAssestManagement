@@ -46,9 +46,9 @@ const Navbar = () => {
             {/* Navigation Links */}
             <div className="flex-1 py-8 space-y-1">
                 <NavItem to="/dashboard" icon={LayoutDashboard} label="Dashboard" />
-                <NavItem to="/purchases" icon={ShoppingCart} label="Procurement" />
-                <NavItem to="/transfers" icon={ArrowRightLeft} label="Logistics" />
-                <NavItem to="/assignments" icon={Users} label="Personnel" />
+                <NavItem to="/purchases" icon={ShoppingCart} label="Purchases" />
+                <NavItem to="/transfers" icon={ArrowRightLeft} label="Transfers" />
+                <NavItem to="/assignments" icon={Users} label="Assignments" />
             </div>
 
             {/* User Profile Section */}
