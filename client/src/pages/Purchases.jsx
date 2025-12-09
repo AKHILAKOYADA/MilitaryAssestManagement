@@ -54,8 +54,8 @@ const Purchases = () => {
     return (
         <div>
             <div className="flex flex-col items-center mb-10 gap-6">
-                <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
-                    Procurement Log
+                <h1 className="text-3xl font-black text-white uppercase tracking-[0.2em] font-[--font-heading] drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    Procurement <span className="text-[--accent-cyan]">Log</span>
                 </h1>
                 <button
                     onClick={() => setIsModalOpen(true)}

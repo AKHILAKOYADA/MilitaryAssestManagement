@@ -56,8 +56,8 @@ const Assignments = () => {
     return (
         <div>
             <div className="flex flex-col items-center mb-10 gap-6">
-                <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
-                    Assignments & Expenditures
+                <h1 className="text-3xl font-black text-white uppercase tracking-[0.2em] font-[--font-heading] drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    <span className="text-[--accent-cyan]">Assignments</span> & Expenditures
                 </h1>
                 <div className="flex gap-4">
                     <button

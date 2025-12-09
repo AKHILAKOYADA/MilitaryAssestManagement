@@ -10,57 +10,67 @@ const Navbar = () => {
         <NavLink
             to={to}
             className={({ isActive }) =>
-                `group flex items-center gap-4 px-6 py-3 mx-2 rounded-xl transition-all duration-300 ease-in-out relative overflow-hidden ${isActive
-                    ? 'bg-gradient-to-r from-[--accent-primary] to-blue-600 text-white shadow-lg shadow-blue-500/30 translate-x-1'
-                    : 'text-[--text-secondary] hover:bg-[--bg-tertiary] hover:text-white hover:translate-x-1'
+                `group flex items-center gap-4 px-6 py-4 mx-0 border-l-2 transition-all duration-200 ease-out relative overflow-hidden ${isActive
+                    ? 'border-[--accent-cyan] bg-[--accent-cyan]/10 text-[--accent-cyan]'
+                    : 'border-transparent text-[--text-secondary] hover:bg-[--accent-cyan]/5 hover:text-white hover:border-[--accent-cyan]/50'
                 }`
             }
         >
             <Icon size={20} className="relative z-10" />
-            <span className="font-medium relative z-10 tracking-wide">{label}</span>
-            {/* Subtle glow effect for active state */}
-            {({ isActive }) => isActive && <div className="absolute inset-0 bg-white/10 blur-sm"></div>}
+            <span className="font-medium relative z-10 tracking-widest font-[--font-heading] uppercase text-sm">{label}</span>
+            {/* Scanline effect for active */}
+            {({ isActive }) => isActive && <div className="absolute inset-0 bg-gradient-to-r from-[--accent-cyan]/10 to-transparent"></div>}
         </NavLink>
     );
 
     return (
-        <nav className="w-72 h-screen bg-[--bg-secondary] border-r border-[--glass-border] flex flex-col py-6 relative z-50">
-            {/* Logo Section - Centered */}
-            <div className="mb-10 px-6 text-center">
-                <div className="inline-block p-3 rounded-full bg-blue-500/10 mb-3 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
-                    <h1 className="text-2xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 uppercase">
-                        MAMS
-                    </h1>
-                </div>
-                <p className="text-xs font-semibold text-[--text-secondary] tracking-widest uppercase opacity-70">
-                    Military Asset Management
+        <nav className="w-72 h-screen bg-[--bg-secondary] border-r border-[#1e293b] flex flex-col relative z-50">
+            {/* Logo Section */}
+            <div className="p-8 pb-4 text-center relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[--accent-cyan] to-transparent opacity-50"></div>
+
+                <h1 className="text-3xl font-black tracking-widest text-[--accent-cyan] uppercase font-[--font-heading] mb-1 drop-shadow-[0_0_10px_rgba(0,240,255,0.5)]">
+                    MAMS
+                </h1>
+                <p className="text-[10px] font-bold text-[--text-secondary] tracking-[0.2em] uppercase">
+                    Tactical Asset Cmd
                 </p>
-                <div className="h-px w-16 bg-gradient-to-r from-transparent via-[--glass-border] to-transparent mx-auto mt-6"></div>
+
+                <div className="mt-6 flex justify-between items-center px-4">
+                    <span className="h-[1px] w-3 bg-[--accent-cyan]"></span>
+                    <span className="text-[10px] text-[--text-muted]">SYS.ONLINE</span>
+                    <span className="h-[1px] w-3 bg-[--accent-cyan]"></span>
+                </div>
             </div>
 
             {/* Navigation Links */}
-            <div className="flex-1 space-y-3">
+            <div className="flex-1 py-8 space-y-1">
                 <NavItem to="/dashboard" icon={LayoutDashboard} label="Dashboard" />
-                <NavItem to="/purchases" icon={ShoppingCart} label="Purchases" />
-                <NavItem to="/transfers" icon={ArrowRightLeft} label="Transfers" />
-                <NavItem to="/assignments" icon={Users} label="Assignments" />
+                <NavItem to="/purchases" icon={ShoppingCart} label="Procurement" />
+                <NavItem to="/transfers" icon={ArrowRightLeft} label="Logistics" />
+                <NavItem to="/assignments" icon={Users} label="Personnel" />
             </div>
 
             {/* User Profile Section */}
-            <div className="px-6 mt-6">
-                <div className="glass-panel p-4 bg-[--bg-primary]/50 border-[--glass-border]">
-                    <div className="text-center mb-3">
-                        <p className="text-sm font-bold text-white tracking-wide">{user?.username}</p>
-                        <p className="text-[10px] uppercase tracking-wider text-[--accent-secondary] font-bold mt-1">
-                            {user?.role?.replace('_', ' ')}
+            <div className="p-6">
+                <div className="bg-[--bg-tertiary] border border-[--border-tech] p-4 relative">
+                    {/* Corner accents */}
+                    <div className="absolute -top-[1px] -left-[1px] w-2 h-2 border-t border-l border-[--accent-cyan]"></div>
+                    <div className="absolute -bottom-[1px] -right-[1px] w-2 h-2 border-b border-r border-[--accent-cyan]"></div>
+
+                    <div className="mb-4">
+                        <p className="text-xs text-[--text-secondary] uppercase tracking-wider mb-1">Commander</p>
+                        <p className="text-sm font-bold text-white tracking-wide font-[--font-mono]">{user?.username}</p>
+                        <p className="text-[10px] uppercase tracking-wider text-[--accent-warning] mt-1">
+                            [{user?.role?.replace('_', ' ')}]
                         </p>
                     </div>
                     <button
                         onClick={logout}
-                        className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all border border-red-500/20 hover:border-red-500/40"
+                        className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/30 hover:border-red-500 transition-all text-xs font-bold uppercase tracking-wider"
                     >
-                        <LogOut size={16} />
-                        <span>Sign Out</span>
+                        <LogOut size={14} />
+                        <span>Terminate Session</span>
                     </button>
                 </div>
             </div>
