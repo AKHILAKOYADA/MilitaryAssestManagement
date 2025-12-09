@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 import { ArrowRightLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -23,7 +24,7 @@ const Transfers = () => {
 
     const fetchHistory = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/transactions');
+            const res = await axios.get(`${API_URL}/api/transactions`);
             setTransfers(res.data.filter(t => t.type === 'TRANSFER'));
         } catch (err) { console.error(err); }
     };
@@ -31,8 +32,8 @@ const Transfers = () => {
     const fetchMeta = async () => {
         try {
             const [assetRes, baseRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/assets'),
-                axios.get('http://localhost:5000/api/bases')
+                axios.get(`${API_URL}/api/assets`),
+                axios.get(`${API_URL}/api/bases`)
             ]);
             setAssets(assetRes.data);
             setBases(baseRes.data);
@@ -42,7 +43,7 @@ const Transfers = () => {
     const handleCreate = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/api/transactions', {
+            await axios.post(`${API_URL}/api/transactions`, {
                 type: 'TRANSFER',
                 ...formData
             });

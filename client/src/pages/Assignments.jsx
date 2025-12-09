@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 import { Users, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -23,14 +24,14 @@ const Assignments = () => {
 
     const fetchHistory = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/transactions');
+            const res = await axios.get(`${API_URL}/api/transactions`);
             setHistory(res.data.filter(t => t.type === 'ASSIGN' || t.type === 'EXPEND'));
         } catch (err) { console.error(err); }
     };
 
     const fetchMeta = async () => {
         try {
-            const assetRes = await axios.get('http://localhost:5000/api/assets');
+            const assetRes = await axios.get(`${API_URL}/api/assets`);
             setAssets(assetRes.data);
         } catch (err) { console.error(err); }
     };
@@ -38,7 +39,7 @@ const Assignments = () => {
     const handleCreate = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/api/transactions', {
+            await axios.post(`${API_URL}/api/transactions`, {
                 type: actionType,
                 ...formData
             });

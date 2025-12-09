@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 import { useAuth } from '../context/AuthContext';
 import { BarChart3, TrendingUp, TrendingDown, Package, Shield } from 'lucide-react';
 import { Bar } from 'react-chartjs-2';
@@ -24,10 +25,10 @@ const Dashboard = () => {
         const fetchMeta = async () => {
             try {
                 if (user.role === 'admin') {
-                    const basesRes = await axios.get('http://localhost:5000/api/bases');
+                    const basesRes = await axios.get(`${API_URL}/api/bases`);
                     setBases(basesRes.data);
                 }
-                const assetsRes = await axios.get('http://localhost:5000/api/assets');
+                const assetsRes = await axios.get(`${API_URL}/api/assets`);
                 // Unique types
                 const types = [...new Set(assetsRes.data.map(a => a.type))];
                 setAssets(types);
@@ -40,7 +41,7 @@ const Dashboard = () => {
         const fetchMetrics = async () => {
             try {
                 const query = new URLSearchParams(filters).toString();
-                const res = await axios.get(`http://localhost:5000/api/dashboard?${query}`);
+                const res = await axios.get(`${API_URL}/api/dashboard?${query}`);
                 setMetrics(res.data);
             } catch (err) { console.error(err); }
         };
