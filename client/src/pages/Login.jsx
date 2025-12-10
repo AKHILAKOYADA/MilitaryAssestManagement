@@ -23,36 +23,37 @@ const Login = () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-[--bg-primary] relative overflow-hidden">
             {/* Background decoration */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-                <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-blue-500/20 rounded-full blur-[120px]"></div>
-                <div className="absolute top-[40%] -right-[10%] w-[40%] h-[40%] bg-emerald-500/10 rounded-full blur-[100px]"></div>
-            </div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--bg-secondary)_0%,_var(--bg-primary)_100%)]"></div>
 
-            <div className="glass-panel p-8 w-full max-w-md z-10 relative">
-                <div className="flex justify-center mb-6">
-                    <div className="p-4 bg-blue-500/10 rounded-full text-blue-400">
-                        <Shield size={48} />
+            <div className="glass-panel p-10 w-full max-w-md z-10 relative shadow-2xl border-t-4 border-t-[--accent-primary]">
+                <div className="flex justify-center mb-8">
+                    <div className="p-4 bg-[--bg-tertiary] rounded-full text-[--text-gold] shadow-lg border border-[--border-subtle]">
+                        <Shield size={64} />
                     </div>
                 </div>
 
-                <h2 className="text-2xl font-bold text-center mb-2">Secure Access</h2>
-                <p className="text-center text-[--text-secondary] mb-8">Military Asset Management System</p>
+                <h2 className="text-3xl font-black text-center mb-2 text-white font-[--font-heading] tracking-widest uppercase">
+                    MAMS <span className="text-[--text-gold]">Login</span>
+                </h2>
+                <p className="text-center text-[--text-secondary] mb-8 font-[--font-heading] text-xs tracking-[0.3em] uppercase">
+                    Restricted Access Only
+                </p>
 
-                {error && <div className="bg-red-500/20 text-red-400 p-3 rounded-lg mb-4 text-sm text-center">{error}</div>}
+                {error && <div className="bg-red-900/50 border border-red-500/50 text-red-200 p-3 rounded mb-6 text-sm text-center">{error}</div>}
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-sm font-medium text-[--text-secondary] mb-1">Username</label>
+                        <label className="block text-xs font-bold text-[--text-gold] uppercase tracking-widest mb-2">Identity</label>
                         <input
                             type="text"
                             className="input-field"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            placeholder="Entet username"
+                            placeholder="OPERATOR ID"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-[--text-secondary] mb-1">Password</label>
+                        <label className="block text-xs font-bold text-[--text-gold] uppercase tracking-widest mb-2">Access Key</label>
                         <input
                             type="password"
                             className="input-field"
@@ -61,15 +62,23 @@ const Login = () => {
                             placeholder="••••••••"
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary w-full justify-center mt-6">
-                        Login
+                    <button type="submit" className="btn btn-primary w-full justify-center mt-2 shadow-lg shadow-amber-900/30">
+                        Authenticate
                     </button>
+
+                    <div className="mt-6 p-4 bg-slate-800/50 rounded border border-slate-700 text-center">
+                        <p className="text-xs font-bold text-amber-500 uppercase tracking-widest mb-2">Debug Access</p>
+                        <div className="text-[10px] text-slate-400 font-mono space-y-1">
+                            <p>CDR: <span className="text-white">admin</span> / <span className="text-white">password123</span></p>
+                            <p>OFF: <span className="text-white">cmdr_alpha</span> / <span className="text-white">password123</span></p>
+                        </div>
+                    </div>
                 </form>
 
-                <div className="mt-6 text-center text-xs text-[--text-secondary]">
-                    Mock Credentials: <br />
-                    admin / password123 <br />
-                    cmdr_alpha / password123
+                <div className="mt-8 pt-6 border-t border-[--border-subtle] text-center">
+                    <p className="text-[10px] text-[--text-muted] uppercase tracking-widest">
+                        System v2.4 // Classified
+                    </p>
                 </div>
             </div>
         </div>

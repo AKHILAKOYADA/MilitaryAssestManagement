@@ -54,12 +54,12 @@ const Purchases = () => {
     return (
         <div>
             <div className="flex flex-col items-center mb-10 gap-6">
-                <h1 className="text-3xl font-black text-white uppercase tracking-[0.2em] font-[--font-heading] drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                    Procurement <span className="text-[--accent-cyan]">Log</span>
+                <h1 className="text-4xl text-white uppercase tracking-widest title-underline">
+                    Procurement <span className="text-gold">Log</span>
                 </h1>
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="btn btn-primary px-6 py-3 shadow-lg shadow-blue-500/20"
+                    className="btn btn-primary"
                 >
                     <Plus size={20} /> Record New Purchase
                 </button>
@@ -67,7 +67,7 @@ const Purchases = () => {
 
             <div className="glass-panel overflow-hidden">
                 <table className="w-full text-left">
-                    <thead className="bg-[--bg-tertiary] text-[--text-secondary] text-xs uppercase">
+                    <thead>
                         <tr>
                             <th className="p-4">Date</th>
                             <th className="p-4">Asset</th>

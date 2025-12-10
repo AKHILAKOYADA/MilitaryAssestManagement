@@ -61,19 +61,19 @@ const Assignments = () => {
     return (
         <div>
             <div className="flex flex-col items-center mb-10 gap-6">
-                <h1 className="text-3xl font-black text-white uppercase tracking-[0.2em] font-[--font-heading] drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                    <span className="text-[--accent-cyan]">Assignments</span> & Expenditures
+                <h1 className="text-4xl text-white uppercase tracking-widest title-underline">
+                    <span className="text-gold">Assignments</span> & Expenditures
                 </h1>
                 <div className="flex gap-4">
                     <button
                         onClick={() => openModal('ASSIGN')}
-                        className="btn bg-[--accent-primary] text-white px-6 py-3 shadow-lg shadow-blue-500/20"
+                        className="btn btn-primary"
                     >
                         <Users size={20} /> Assign to Personnel
                     </button>
                     <button
                         onClick={() => openModal('EXPEND')}
-                        className="btn bg-orange-600 text-white px-6 py-3 shadow-lg shadow-orange-600/20"
+                        className="btn btn-danger"
                     >
                         <AlertTriangle size={20} /> Record Expenditure
                     </button>
@@ -82,7 +82,7 @@ const Assignments = () => {
 
             <div className="glass-panel overflow-hidden">
                 <table className="w-full text-left">
-                    <thead className="bg-[--bg-tertiary] text-[--text-secondary] text-xs uppercase">
+                    <thead>
                         <tr>
                             <th className="p-4">Date</th>
                             <th className="p-4">Type</th>
@@ -97,7 +97,7 @@ const Assignments = () => {
                             <tr key={t.id} className="hover:bg-[--bg-secondary]">
                                 <td className="p-4">{new Date(t.timestamp).toLocaleDateString()}</td>
                                 <td className="p-4">
-                                    <span className={`px-2 py-1 rounded text-xs ${t.type === 'ASSIGN' ? 'bg-blue-500/10 text-blue-400' : 'bg-orange-500/10 text-orange-400'}`}>
+                                    <span className={`px-2 py-1 rounded text-xs font-bold ${t.type === 'ASSIGN' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
                                         {t.type}
                                     </span>
                                 </td>
