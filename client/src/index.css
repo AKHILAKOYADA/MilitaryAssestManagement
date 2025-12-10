@@ -5,38 +5,38 @@
 @tailwind utilities;
 
 :root {
-  /* Classic Premium Military Theme */
-  --bg-primary: #0f172a; /* Slate 900 - Deep Navy */
-  --bg-secondary: #1e293b; /* Slate 800 - Lighter Navy */
-  --bg-tertiary: #334155; /* Slate 700 - Panel Highlight */
-  
+  /* Modern Dark Cyber Theme */
+  --bg-primary: #0b0f14;
+  /* Nearly Black */
+  --bg-secondary: #1a1f26;
+  /* Dark Gray */
+  --bg-tertiary: #272e38;
+  /* Panel */
+
   /* Typography */
-  --font-heading: 'Cinzel', serif; /* Prestigious, Roman, Classic */
-  --font-sans: 'Inter', sans-serif; /* Clean, Readable */
-  --font-mono: 'JetBrains Mono', monospace; /* Keep for data */
+  --font-heading: 'Inter', sans-serif;
+  /* Clean Modern */
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 
   /* Text Colors */
-  --text-primary: #f8fafc; /* Slate 50 */
-  --text-secondary: #cbd5e1; /* Slate 300 */
-  --text-muted: #94a3b8; /* Slate 400 */
-  --text-gold: #fbbf24; /* Amber 400 */
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
 
-  /* Accents - Gold/Brass & Steel */
-  --accent-primary: #d97706; /* Amber 600 - "Brass" */
-  --accent-secondary: #475569; /* Slate 600 - "Steel" */
-  --accent-success: #10b981; /* Emerald */
-  --accent-danger: #ef4444; /* Red */
-  --accent-highlight: #fbbf24; /* Amber 400 - Gold glow */
-  
+  /* Accents */
+  --accent-primary: #10b981;
+  /* Emerald */
+  --accent-secondary: #3b82f6;
+  /* Blue */
+  --accent-success: #10b981;
+  --accent-danger: #ef4444;
+
   /* Borders */
-  --border-primary: rgba(251, 191, 36, 0.4); /* Gold subtle */
-  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-primary: #1f2937;
+  --border-subtle: rgba(255, 255, 255, 0.05);
 
-  /* Shadows */
-  --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-  --shadow-gold: 0 0 15px rgba(217, 119, 6, 0.4);
-
-  --radius-std: 8px; /* Slightly rounded, classic feel */
+  --radius-std: 0.5rem;
 }
 
 body {
@@ -51,16 +51,30 @@ body {
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { 
-  background: var(--bg-tertiary); 
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
   border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover { background: var(--accent-primary); }
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
 
 /* Headings */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -76,7 +90,8 @@ h1, h2, h3, h4, h5, h6 {
 .glass-panel {
   background: var(--bg-secondary);
   border: 1px solid var(--border-subtle);
-  border-top: 2px solid var(--accent-primary); /* Gold Top Border */
+  border-top: 2px solid var(--accent-primary);
+  /* Gold Top Border */
   border-radius: var(--radius-std);
   box-shadow: var(--shadow-card);
   padding: 1.5rem;
@@ -85,7 +100,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Remove corner markers - keep it clean */
-.glass-panel::before, .glass-panel::after {
+.glass-panel::before,
+.glass-panel::after {
   display: none;
 }
 
@@ -96,7 +112,8 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.05em;
   font-weight: 600;
   padding: 0.75rem 1.5rem;
-  border-radius: 4px; /* Classic slight round */
+  border-radius: 4px;
+  /* Classic slight round */
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -111,14 +128,15 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(to bottom, var(--accent-primary), #b45309);
   color: white;
   border: 1px solid #b45309;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .btn-primary:hover {
   background: linear-gradient(to bottom, #fbbf24, #d97706);
   transform: translateY(-1px);
   box-shadow: 0 6px 12px rgba(217, 119, 6, 0.3);
-  color: #0f172a; /* Dark text on bright gold */
+  color: #0f172a;
+  /* Dark text on bright gold */
 }
 
 /* Inputs */
@@ -132,6 +150,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-sans);
   transition: border-color 0.2s;
 }
+
 .input-field:focus {
   outline: none;
   border-color: var(--accent-primary);
@@ -189,6 +208,7 @@ td {
   display: inline-block;
   padding-bottom: 10px;
 }
+
 .title-underline::after {
   content: '';
   position: absolute;

@@ -8,13 +8,16 @@ import Purchases from './pages/Purchases';
 import Transfers from './pages/Transfers';
 import Assignments from './pages/Assignments';
 
+import Header from './components/Header';
+
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" />;
   return (
-    <div className="min-h-screen bg-[--bg-primary] text-[--text-primary] flex">
+    <div className="min-h-screen bg-[#0f1218] text-gray-100 flex font-sans">
       <Navbar />
-      <div className="flex-1 p-8 overflow-y-auto h-screen">
+      <div className="flex-1 p-8 overflow-y-auto h-screen relative">
+        <Header />
         {children}
       </div>
     </div>

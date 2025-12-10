@@ -52,80 +52,78 @@ const Dashboard = () => {
         setFilters({ ...filters, [e.target.name]: e.target.value });
     };
 
-    const StatCard = ({ label, value, icon: Icon, color, onClick }) => (
+    const StatCard = ({ label, value, subtext, icon: Icon, colorClass, borderColorClass, onClick }) => (
         <div
             onClick={onClick}
-            className={`glass-panel p-6 flex flex-col justify-between group min-h-[140px] ${onClick ? 'cursor-pointer hover:border-gold-500/50' : ''}`}
+            className={`bg-[#1e2329] p-6 rounded-lg border-t-4 ${borderColorClass} shadow-xl relative overflow-hidden group min-h-[160px] flex flex-col justify-between ${onClick ? 'cursor-pointer hover:border-gold-500/50' : ''}`}
         >
-            <div className="flex justify-between items-start z-10">
-                <div>
-                    <p className="text-[--text-muted] text-xs uppercase tracking-widest mb-2 font-bold">{label}</p>
-                    <h3 className="text-4xl font-black font-[--font-heading] text-white tracking-widest drop-shadow-lg">{value}</h3>
-                </div>
-                <div className={`p-3 rounded bg-[--bg-tertiary] text-[--text-gold] shadow-inner`}>
-                    <Icon size={24} />
+            <div className="flex justify-between items-start">
+                <div className="z-10">
+                    <div className="flex items-center gap-2 mb-3">
+                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{label}</span>
+                        <div className={`p-1 rounded bg-gray-700/50 text-gray-400`}>
+                            <Icon size={14} />
+                        </div>
+                    </div>
+                    <h3 className="text-4xl font-bold text-white mb-1">{value}</h3>
+                    <p className="text-xs text-gray-500 font-medium">{subtext}</p>
                 </div>
             </div>
-
-            {/* Subtle background icon */}
-            <Icon size={100} className="absolute -bottom-4 -right-4 opacity-5 text-[--text-gold]" />
+            {/* Hover Effect */}
+            <div className={`absolute -bottom-6 -right-6 text-white opacity-[0.03] group-hover:opacity-[0.08] transition-opacity`}>
+                <Icon size={120} />
+            </div>
         </div>
     );
 
-    if (!metrics) return <div className="p-10 text-[--text-gold] flex justify-center items-center"><span className="animate-spin mr-2">⟳</span> Loading Command Center...</div>;
+    if (!metrics) return <div className="p-10 text-emerald-500 flex justify-center items-center font-mono">LOADING SYSTEM DATA...</div>;
 
     return (
-        <div>
-            <div className="flex flex-col items-center mb-10 gap-6">
-                <div className="text-center">
-                    <h1 className="text-4xl text-white mb-2 uppercase tracking-widest title-underline">
-                        Base <span className="text-gold">Operations</span>
-                    </h1>
+        <div className="max-w-7xl mx-auto">
+            <div className="flex justify-between items-end mb-8">
+                <div>
+                    <h1 className="text-3xl font-bold text-white mb-1">Dashboard</h1>
+                    <p className="text-gray-400 text-sm">Welcome back, {user?.username || 'System Administrator'}</p>
                 </div>
-
-                {/* Filters */}
-                <div className="bg-[--bg-secondary] p-2 rounded flex gap-4 items-center shadow-lg border border-[--border-subtle]">
-                    <div className="flex items-center gap-2 border-r border-[--border-subtle] pr-6 pl-2">
-                        <span className="text-[10px] uppercase tracking-widest font-bold text-[--text-muted]">Range</span>
-                        <input
-                            type="date" name="start_date"
-                            value={filters.start_date}
-                            onChange={handleFilterChange}
-                            className="bg-[--bg-primary] border border-[--border-subtle] rounded p-1 text-sm text-[--text-primary] focus:border-[--accent-primary] outline-none"
-                        />
-                        <span className="text-[--text-muted]">-</span>
-                        <input
-                            type="date" name="end_date"
-                            value={filters.end_date}
-                            onChange={handleFilterChange}
-                            className="bg-[--bg-primary] border border-[--border-subtle] rounded p-1 text-sm text-[--text-primary] focus:border-[--accent-primary] outline-none"
-                        />
-                    </div>
-                    <div className="pr-2">
-                        <select
-                            name="equipment_type"
-                            value={filters.equipment_type}
-                            onChange={handleFilterChange}
-                            className="bg-[--bg-primary] border border-[--border-subtle] rounded p-1 text-sm text-[--text-primary] focus:border-[--accent-primary] outline-none min-w-[150px]"
-                        >
-                            <option value="">ALL ASSETS</option>
-                            {assets.map(t => <option key={t} value={t}>{t}</option>)}
-                        </select>
-                    </div>
-                </div>
+                <button className="flex items-center gap-2 px-4 py-2 bg-[#1e2329] text-gray-300 border border-gray-700 rounded-lg hover:bg-gray-800 transition-colors text-sm">
+                    <span className="text-xs">▼</span> Filters
+                </button>
             </div>
 
-            <div className="grid grid-cols-4 gap-10 mb-8">
-                <StatCard label="Total Stock" value={metrics.openingBalance} icon={Package} color="blue" />
+            <div className="grid grid-cols-4 gap-8 mb-8">
                 <StatCard
-                    label="Net Flow"
+                    label="Opening Balance"
+                    value={metrics.openingBalance.toLocaleString()}
+                    subtext="Total assets at start"
+                    icon={Package}
+                    borderColorClass="border-emerald-500"
+                    colorClass="text-emerald-500"
+                />
+                <StatCard
+                    label="Current Balance"
+                    value={metrics.closingBalance.toLocaleString()}
+                    subtext="Available inventory"
+                    icon={Shield} // or Pulse
+                    borderColorClass="border-blue-500"
+                    colorClass="text-blue-500"
+                />
+                <StatCard
+                    label="Net Movement"
                     value={(metrics.netMovement > 0 ? '+' : '') + metrics.netMovement}
-                    icon={metrics.netMovement >= 0 ? TrendingUp : TrendingDown}
-                    color={metrics.netMovement >= 0 ? "emerald" : "red"}
+                    subtext="Click for details"
+                    icon={TrendingUp}
+                    borderColorClass="border-cyan-500"
+                    colorClass="text-cyan-500"
                     onClick={() => setShowNetDetails(!showNetDetails)}
                 />
-                <StatCard label="Current Stock" value={metrics.closingBalance} icon={Shield} color="cyan" />
-                <StatCard label="Expenditure" value={metrics.details.expended} icon={BarChart3} color="orange" />
+                <StatCard
+                    label="Assigned"
+                    value={metrics.details.assigned || 0} // Ensure assigned is in metrics or use mock
+                    subtext="To personnel"
+                    icon={Users} // Assuming Users icon for Assigned
+                    borderColorClass="border-orange-500"
+                    colorClass="text-orange-500"
+                />
             </div>
 
             {showNetDetails && (
