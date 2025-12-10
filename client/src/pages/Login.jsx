@@ -24,19 +24,19 @@ const Login = () => {
         <div className="min-h-screen flex items-center justify-center bg-[--bg-primary] relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-                <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-blue-500/20 rounded-full blur-[120px]"></div>
-                <div className="absolute top-[40%] -right-[10%] w-[40%] h-[40%] bg-emerald-500/10 rounded-full blur-[100px]"></div>
+                <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-blue-700/20 rounded-full blur-[120px]"></div>
+                <div className="absolute top-[40%] -right-[10%] w-[40%] h-[40%] bg-blue-500/8 rounded-full blur-[100px]"></div>
             </div>
 
             <div className="glass-panel p-8 w-full max-w-md z-10 relative">
                 <div className="flex justify-center mb-6">
-                    <div className="p-4 bg-blue-500/10 rounded-full text-blue-400">
+                    <div className="p-4 bg-blue-600/10 rounded-full text-blue-400 shadow-inner">
                         <Shield size={48} />
                     </div>
                 </div>
 
-                <h2 className="text-2xl font-bold text-center mb-2">Secure Access</h2>
-                <p className="text-center text-[--text-secondary] mb-8">Military Asset Management System</p>
+                <h2 className="text-2xl font-bold text-center mb-2 text-[--text-primary]">Military Asset Management</h2>
+                <p className="text-center text-[--text-secondary] mb-8 uppercase tracking-wider">Secure Access Portal</p>
 
                 {error && <div className="bg-red-500/20 text-red-400 p-3 rounded-lg mb-4 text-sm text-center">{error}</div>}
 
@@ -48,7 +48,7 @@ const Login = () => {
                             className="input-field"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            placeholder="Entet username"
+                            placeholder="Enter your username"
                         />
                     </div>
                     <div>
@@ -62,7 +62,7 @@ const Login = () => {
                         />
                     </div>
                     <button type="submit" className="btn btn-primary w-full justify-center mt-6">
-                        Login
+                        Sign In
                     </button>
                 </form>
 

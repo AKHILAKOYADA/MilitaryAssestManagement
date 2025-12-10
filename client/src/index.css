@@ -1,198 +1,53 @@
-@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  /* Tactical Military Theme */
-  --bg-primary: #050a0f; /* Deep void */
-  --bg-secondary: #0a1118; /* Dark gunmetal */
-  --bg-tertiary: #131c26; /* Panel bg */
-  --bg-grid: #0f2231;
-
-  /* Typography */
-  --font-heading: 'Chakra Petch', sans-serif; /* Sci-fi/Tech look */
-  --font-mono: 'JetBrains Mono', monospace; /* Data/Code */
-  --font-sans: 'Chakra Petch', sans-serif; /* Unified look for consistency */
-
-  /* Text Colors */
-  --text-primary: #e2e8f0;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-scifi: #00f0ff; /* Holographic cyan text */
-
-  /* Tactical Accents */
-  --accent-cyan: #00f0ff; /* Primary HUD color */
-  --accent-olive: #5c7f67; /* Camo hint */
-  --accent-warning: #f59e0b; /* Alert amber */
-  --accent-danger: #ef4444; /* Critical red */
-  
-  /* UI Borders */
-  --border-tech: rgba(0, 240, 255, 0.2);
-  --border-subtle: rgba(255, 255, 255, 0.05);
-
-  /* Glass/HUD System */
-  --hud-bg: rgba(10, 17, 24, 0.85);
-  --hud-border: 1px solid var(--border-tech);
-  --hud-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
-
-  --radius-tech: 2px; /* Sharp corners for military look */
+:root{
+  --bg-primary: #071021;        /* page background - deep navy/dark */
+  --panel-bg: rgba(255,255,255,0.02);
+  --glass-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  --text-primary: #e6eef8;     /* main text */
+  --text-secondary: #9aa7b6;   /* secondary text */
+  --accent-blue: #1e90ff;      /* main blue accent */
+  --accent-blue-2: #3b82f6;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-sans);
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.6;
-  
-  /* Tactical Grid Background */
-  background-image: 
-    linear-gradient(var(--bg-grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
-  background-size: 40px 40px;
-  background-position: center top;
+/* Glass card used on login */
+.glass-panel{
+  background: var(--panel-bg);
+  background-image: var(--glass-bg);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--border-tech); }
-
-/* Headings */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: white;
-}
-
-/* 
-  COMPONENT CLASSES 
-  We use standard class names but drastic style changes 
-*/
-
-/* Tech Panel (replaces Glass Panel) */
-.glass-panel {
-  background: var(--hud-bg);
-  border: 1px solid var(--border-tech);
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.05), inset 0 0 20px rgba(0, 240, 255, 0.02);
-  position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(4px);
-}
-
-/* Corner Markers for Panels */
-.glass-panel::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 10px; height: 10px;
-  border-top: 2px solid var(--accent-cyan);
-  border-left: 2px solid var(--accent-cyan);
-}
-.glass-panel::after {
-  content: '';
-  position: absolute;
-  bottom: 0; right: 0;
-  width: 10px; height: 10px;
-  border-bottom: 2px solid var(--accent-cyan);
-  border-right: 2px solid var(--accent-cyan);
-}
-
-/* Buttons */
-.btn {
-  font-family: var(--font-heading);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 600;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-  position: relative;
-  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-}
-
-.btn-primary {
-  background: var(--accent-cyan);
-  color: var(--bg-primary); /* Contrast text */
-}
-
-.btn-primary:hover {
-  background: white;
-  box-shadow: 0 0 15px var(--accent-cyan);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: var(--accent-cyan);
-  border: 1px solid var(--accent-cyan);
-}
-
-.btn-danger {
-  background: var(--accent-danger);
-  color: white;
-}
-
-/* Inputs */
-.input-field {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--text-muted);
-  border-radius: 0; /* Sharp */
-  color: var(--accent-cyan);
-  padding: 0.75rem;
+/* form inputs */
+.input-field{
   width: 100%;
-  font-family: var(--font-mono);
-}
-.input-field:focus {
-  outline: none;
-  border-color: var(--accent-cyan);
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
-}
-
-/* Tables */
-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 4px; /* Space between rows */
-}
-
-thead {
-  font-family: var(--font-mono);
-  color: var(--text-secondary);
-  font-size: 0.8rem;
-}
-
-th {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid var(--border-tech);
-}
-
-tbody tr {
   background: rgba(255,255,255,0.02);
-  transition: all 0.2s;
+  border: 1px solid rgba(255,255,255,0.03);
+  color: var(--text-primary);
+  padding: 12px 14px;
+  border-radius: 8px;
+  outline: none;
+  transition: box-shadow .15s, border-color .15s;
+}
+.input-field::placeholder{
+  color: rgba(255,255,255,0.2);
+}
+.input-field:focus{
+  box-shadow: 0 0 0 4px rgba(30,144,255,0.08);
+  border-color: rgba(30,144,255,0.6);
 }
 
-tbody tr:hover {
-  background: rgba(0, 240, 255, 0.1);
-  transform: translateX(5px);
+/* main call-to-action */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .6rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
 }
-
-td {
-  padding: 1rem;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
-}
-
-/* Utilities */
-.text-gradient {
-  background: linear-gradient(to right, var(--accent-cyan), white);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.btn-primary{
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-blue-2));
+  color: #fff;
+  box-shadow: 0 8px 30px rgba(30,144,255,0.14);
+  border: 1px solid rgba(255,255,255,0.04);
 }
