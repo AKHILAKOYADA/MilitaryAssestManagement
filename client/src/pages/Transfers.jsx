@@ -56,7 +56,7 @@ const Transfers = () => {
         <div>
             <div className="flex flex-col items-center mb-10 gap-6">
                 <h1 className="text-4xl text-white uppercase tracking-widest title-underline">
-                    Base <span className="text-gold">Transfers</span>
+                    Base <span className="text-orange-500">Transfers</span>
                 </h1>
                 <button
                     onClick={() => setIsModalOpen(true)}
@@ -86,7 +86,7 @@ const Transfers = () => {
                                     <div className="flex items-center gap-2">
                                         <span className="text-red-400">{t.source_base}</span>
                                         <ArrowRightLeft size={14} className="text-[--text-secondary]" />
-                                        <span className="text-emerald-400">{t.dest_base}</span>
+                                        <span className="text-orange-400">{t.dest_base}</span>
                                     </div>
                                 </td>
                                 <td className="p-4">{t.quantity}</td>

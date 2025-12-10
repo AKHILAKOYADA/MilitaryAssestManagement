@@ -4,6 +4,7 @@ import { LogOut, User, Bell } from 'lucide-react';
 
 const Header = () => {
     const { user, logout } = useAuth();
+    if (!user) return null;
 
     return (
         <header className="flex justify-between items-center mb-8 pb-4 border-b border-gray-800">

@@ -62,7 +62,7 @@ const Assignments = () => {
         <div>
             <div className="flex flex-col items-center mb-10 gap-6">
                 <h1 className="text-4xl text-white uppercase tracking-widest title-underline">
-                    <span className="text-gold">Assignments</span> & Expenditures
+                    <span className="text-orange-500">Assignments</span> & Expenditures
                 </h1>
                 <div className="flex gap-4">
                     <button
@@ -97,7 +97,7 @@ const Assignments = () => {
                             <tr key={t.id} className="hover:bg-[--bg-secondary]">
                                 <td className="p-4">{new Date(t.timestamp).toLocaleDateString()}</td>
                                 <td className="p-4">
-                                    <span className={`px-2 py-1 rounded text-xs font-bold ${t.type === 'ASSIGN' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
+                                    <span className={`px-2 py-1 rounded text-xs font-bold ${t.type === 'ASSIGN' ? 'bg-orange-500/20 text-orange-400' : 'bg-red-500/20 text-red-400'}`}>
                                         {t.type}
                                     </span>
                                 </td>

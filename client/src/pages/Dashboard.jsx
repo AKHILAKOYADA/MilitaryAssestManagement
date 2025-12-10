@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../config';
 import { useAuth } from '../context/AuthContext';
-import { BarChart3, TrendingUp, TrendingDown, Package, Shield } from 'lucide-react';
+import { BarChart3, TrendingUp, TrendingDown, Package, Shield, Users } from 'lucide-react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
@@ -10,7 +10,12 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const Dashboard = () => {
     const { user } = useAuth();
-    const [metrics, setMetrics] = useState(null);
+    const [metrics, setMetrics] = useState({
+        openingBalance: 0,
+        closingBalance: 0,
+        netMovement: 0,
+        details: { purchases: 0, transferIn: 0, transferOut: 0, expended: 0, assigned: 0 }
+    });
     const [filters, setFilters] = useState({
         start_date: '',
         end_date: '',
@@ -18,13 +23,16 @@ const Dashboard = () => {
     });
     const [bases, setBases] = useState([]);
     const [assets, setAssets] = useState([]);
+    const [showFilters, setShowFilters] = useState(false);
+
     const [showNetDetails, setShowNetDetails] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // Fetch Base/Asset metadata for filters
         const fetchMeta = async () => {
             try {
-                if (user.role === 'admin') {
+                if (user?.role === 'admin') {
                     const basesRes = await axios.get(`${API_URL}/api/bases`);
                     setBases(basesRes.data);
                 }
@@ -34,16 +42,18 @@ const Dashboard = () => {
                 setAssets(types);
             } catch (err) { console.error(err); }
         };
-        fetchMeta();
+        if (user) fetchMeta();
     }, [user]);
 
     useEffect(() => {
         const fetchMetrics = async () => {
+            setLoading(true);
             try {
                 const query = new URLSearchParams(filters).toString();
                 const res = await axios.get(`${API_URL}/api/dashboard?${query}`);
                 setMetrics(res.data);
             } catch (err) { console.error(err); }
+            finally { setLoading(false); }
         };
         fetchMetrics();
     }, [filters]);
@@ -55,7 +65,7 @@ const Dashboard = () => {
     const StatCard = ({ label, value, subtext, icon: Icon, colorClass, borderColorClass, onClick }) => (
         <div
             onClick={onClick}
-            className={`bg-[#1e2329] p-6 rounded-lg border-t-4 ${borderColorClass} shadow-xl relative overflow-hidden group min-h-[160px] flex flex-col justify-between ${onClick ? 'cursor-pointer hover:border-gold-500/50' : ''}`}
+            className={`bg-[#1e2329] p-6 rounded-lg border-t-4 ${borderColorClass} shadow-xl relative overflow-hidden group min-h-[160px] flex flex-col justify-between ${onClick ? 'cursor-pointer hover:border-white/20' : ''}`}
         >
             <div className="flex justify-between items-start">
                 <div className="z-10">
@@ -76,7 +86,7 @@ const Dashboard = () => {
         </div>
     );
 
-    if (!metrics) return <div className="p-10 text-emerald-500 flex justify-center items-center font-mono">LOADING SYSTEM DATA...</div>;
+    if (loading && !metrics.openingBalance) return <div className="p-10 text-orange-500 flex justify-center items-center font-mono">LOADING SYSTEM DATA...</div>;
 
     return (
         <div className="max-w-7xl mx-auto">
@@ -85,10 +95,52 @@ const Dashboard = () => {
                     <h1 className="text-3xl font-bold text-white mb-1">Dashboard</h1>
                     <p className="text-gray-400 text-sm">Welcome back, {user?.username || 'System Administrator'}</p>
                 </div>
-                <button className="flex items-center gap-2 px-4 py-2 bg-[#1e2329] text-gray-300 border border-gray-700 rounded-lg hover:bg-gray-800 transition-colors text-sm">
+                <button
+                    onClick={() => setShowFilters(!showFilters)}
+                    className={`flex items-center gap-2 px-4 py-2 border rounded-lg transition-colors text-sm ${showFilters ? 'bg-orange-500 text-white border-orange-500' : 'bg-[#1e2329] text-gray-300 border-gray-700 hover:bg-gray-800'}`}
+                >
                     <span className="text-xs">▼</span> Filters
                 </button>
             </div>
+
+            {showFilters && (
+                <div className="glass-panel p-6 mb-8 animate-in fade-in slide-in-from-top-2">
+                    <div className="grid grid-cols-3 gap-6">
+                        <div>
+                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Start Date</label>
+                            <input
+                                type="date"
+                                name="start_date"
+                                value={filters.start_date}
+                                onChange={handleFilterChange}
+                                className="input-field"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">End Date</label>
+                            <input
+                                type="date"
+                                name="end_date"
+                                value={filters.end_date}
+                                onChange={handleFilterChange}
+                                className="input-field"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Asset Type</label>
+                            <select
+                                name="equipment_type"
+                                value={filters.equipment_type}
+                                onChange={handleFilterChange}
+                                className="input-field"
+                            >
+                                <option value="">All Types</option>
+                                {assets.map(type => <option key={type} value={type}>{type}</option>)}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <div className="grid grid-cols-4 gap-8 mb-8">
                 <StatCard
@@ -96,8 +148,8 @@ const Dashboard = () => {
                     value={metrics.openingBalance.toLocaleString()}
                     subtext="Total assets at start"
                     icon={Package}
-                    borderColorClass="border-emerald-500"
-                    colorClass="text-emerald-500"
+                    borderColorClass="border-orange-500"
+                    colorClass="text-orange-500"
                 />
                 <StatCard
                     label="Current Balance"
@@ -121,8 +173,8 @@ const Dashboard = () => {
                     value={metrics.details.assigned || 0} // Ensure assigned is in metrics or use mock
                     subtext="To personnel"
                     icon={Users} // Assuming Users icon for Assigned
-                    borderColorClass="border-orange-500"
-                    colorClass="text-orange-500"
+                    borderColorClass="border-rose-500"
+                    colorClass="text-rose-500"
                 />
             </div>
 
@@ -136,7 +188,7 @@ const Dashboard = () => {
                         </div>
                         <div>
                             <p className="text-xs text-[--text-muted] uppercase tracking-widest mb-1">Inbound</p>
-                            <p className="text-2xl font-bold text-emerald-400">+{metrics.details.transferIn}</p>
+                            <p className="text-2xl font-bold text-orange-400">+{metrics.details.transferIn}</p>
                         </div>
                         <div>
                             <p className="text-xs text-[--text-muted] uppercase tracking-widest mb-1">Outbound</p>
@@ -149,13 +201,70 @@ const Dashboard = () => {
             <div className="glass-panel p-6">
                 <div className="flex justify-between items-center mb-6 border-b border-[--border-subtle] pb-2">
                     <h3 className="text-lg font-bold font-[--font-heading] uppercase tracking-wider text-white">
-                        Activity Log
+                        Activity Visualization
                     </h3>
                 </div>
 
-                <div className="h-64 flex flex-col items-center justify-center text-[--text-secondary] bg-[--bg-primary] rounded border border-[--border-subtle]">
-                    <BarChart3 size={48} className="mb-4 opacity-20 text-[--text-muted]" />
-                    <p className="text-xs tracking-widest font-bold">NO HISTORICAL TRENDS AVAILABLE</p>
+                <div className="h-64 w-full">
+                    <Bar
+                        data={{
+                            labels: ['Purchased', 'Inbound', 'Outbound', 'Expended', 'Assigned'],
+                            datasets: [{
+                                label: 'Asset Movements',
+                                data: [
+                                    metrics.details.purchases,
+                                    metrics.details.transferIn,
+                                    metrics.details.transferOut,
+                                    metrics.details.expended,
+                                    metrics.details.assigned
+                                ],
+                                backgroundColor: [
+                                    'rgba(249, 115, 22, 0.8)', // Orange
+                                    'rgba(59, 130, 246, 0.8)', // Blue
+                                    'rgba(239, 68, 68, 0.8)',  // Red
+                                    'rgba(185, 28, 28, 0.8)',  // Dark Red
+                                    'rgba(244, 63, 94, 0.8)'   // Rose
+                                ],
+                                borderColor: [
+                                    'rgba(249, 115, 22, 1)',
+                                    'rgba(59, 130, 246, 1)',
+                                    'rgba(239, 68, 68, 1)',
+                                    'rgba(185, 28, 28, 1)',
+                                    'rgba(244, 63, 94, 1)'
+                                ],
+                                borderWidth: 1,
+                                borderRadius: 4,
+                                barThickness: 40,
+                            }]
+                        }}
+                        options={{
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: '#1e293b',
+                                    titleColor: '#f97316',
+                                    bodyColor: '#f3f4f6',
+                                    borderColor: '#334155',
+                                    borderWidth: 1,
+                                    padding: 10,
+                                    displayColors: false,
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                                    ticks: { color: '#94a3b8', font: { family: 'Inter' } }
+                                },
+                                x: {
+                                    grid: { display: false },
+                                    ticks: { color: '#94a3b8', font: { family: 'Inter' } }
+                                }
+                            }
+                        }}
+                    />
                 </div>
             </div>
         </div>
