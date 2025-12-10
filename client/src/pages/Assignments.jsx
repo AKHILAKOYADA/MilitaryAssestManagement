@@ -8,6 +8,7 @@ const Assignments = () => {
     const { user } = useAuth();
     const [history, setHistory] = useState([]);
     const [assets, setAssets] = useState([]);
+    const [bases, setBases] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [actionType, setActionType] = useState('ASSIGN'); // ASSIGN or EXPEND
     const [formData, setFormData] = useState({
@@ -31,8 +32,12 @@ const Assignments = () => {
 
     const fetchMeta = async () => {
         try {
-            const assetRes = await axios.get(`${API_URL}/api/assets`);
+            const [assetRes, baseRes] = await Promise.all([
+                axios.get(`${API_URL}/api/assets`),
+                axios.get(`${API_URL}/api/bases`)
+            ]);
             setAssets(assetRes.data);
+            setBases(baseRes.data);
         } catch (err) { console.error(err); }
     };
 
@@ -134,6 +139,20 @@ const Assignments = () => {
                                     onChange={e => setFormData({ ...formData, quantity: parseInt(e.target.value) })}
                                     required
                                 />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm mb-1">Source Base</label>
+                                <select
+                                    className="input-field"
+                                    value={formData.source_base_id}
+                                    onChange={e => setFormData({ ...formData, source_base_id: e.target.value })}
+                                    required
+                                    disabled={user.role !== 'admin'}
+                                >
+                                    <option value="">Select Source Base</option>
+                                    {bases.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
+                                </select>
                             </div>
 
                             {actionType === 'ASSIGN' && (
